@@ -1,0 +1,13 @@
+<svg width="24" height="24" viewBox="0 0 24 24"
+     xmlns="http://www.w3.org/2000/svg"
+     fill="none" stroke="#4A4A4A" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round">
+  <!-- big tile -->
+  <rect x="2" y="2" width="11" height="11"/>
+  <!-- tall tile -->
+  <rect x="15" y="2" width="7" height="7"/>
+  <!-- small tile -->
+  <rect x="15" y="11" width="7" height="4"/>
+  <!-- wide footer tile -->
+  <rect x="2" y="15" width="20" height="7"/>
+</svg>

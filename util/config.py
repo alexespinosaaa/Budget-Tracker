@@ -1,0 +1,3 @@
+
+CURRENCY_FREAKS_API_KEY = ""
+
