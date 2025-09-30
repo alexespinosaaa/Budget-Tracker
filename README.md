@@ -142,7 +142,6 @@ This ensures a **clean separation of concerns** between presentation, logic, and
 
 ### Steps
 
-```bash
 git clone https://github.com/your-username/budget-tracker.git
 cd budget-tracker
 
