@@ -1,17 +1,17 @@
-# Budget Tracker
+# 💰 Budget Tracker
 
-A lightweight personal finance and budgeting tool to track **wallets, expenses, categories, and goals**, with built-in analytics and a simple Qt interface for displaying net worth.
+A **lightweight personal finance and budgeting tool** to track **wallets, expenses, categories, and goals**, with built-in analytics, customizable UI, and a PySide6 Qt interface for displaying insights and net worth.
 
 ---
 
 ![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
-![License](https://img.shields.io/badge/license-TODO-lightgrey.svg)
-![CI](https://img.shields.io/badge/build-passing-brightgreen.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
 ![Code style](https://img.shields.io/badge/code%20style-PEP8-yellow.svg)
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
 - [Overview](#overview)
 - [Key Features](#key-features)
@@ -29,104 +29,111 @@ A lightweight personal finance and budgeting tool to track **wallets, expenses, 
 
 ---
 
-## Overview
+## 📖 Overview
 
-This project is a **personal budgeting/finance tool** built with Python and SQLite.  
-It allows users to:
+This project is a **personal budgeting and finance desktop app** built with **Python (PySide6, SQLite, Pandas, NumPy, Matplotlib, Plotly)**.  
 
-- Track **wallet balances** and **net worth** (by currency).
-- Record and undo **expenses**.
-- Organize spending with **categories**.
-- Define and complete **goals**.
-- Generate **analytics and descriptive statistics**.
-- Display **net worth by currency** in a PySide6 (Qt) widget.
+It provides a full workflow:  
 
-Designed for individuals who want a simple, extensible tool to manage personal finances while providing developers with a clean backend structure for further customization.
+- **Track** wallet balances, expenses, categories, and goals.  
+- **Visualize** net worth, monthly comparisons, and expenditure trends.  
+- **Analyze** spending with descriptive statistics and drift detection.  
+- **Customize** the UI with themes and palettes.  
+- **Secure** data with login and password hashing.  
+- **Import/Export** financial data via CSV, JSON, or Excel.  
 
----
-
-## Key Features
-
-- 💸 **Expenses**
-  - Record new expenses with `record_expense`.
-  - Undo expenses with `redo_expense`.
-  - Summaries by week/month.
-  - Descriptive statistics: mean, median, and "mode" by expense name.
-
-- 💰 **Wallets**
-  - Manage multiple wallets with `get_all_wallets` and `order_by`.
-  - Transfer between wallets (`transfer_money`).
-  - Calculate net worth per currency with `calc_networth(mode=1)`.
-
-- 🎯 **Goals**
-  - Complete goals via `complete_goal`: deduct from wallet, log as expense, and delete the goal.
-  - ⚠️ Legacy function `ordeBy` remains for backward compatibility.
-
-- 📊 **Analytics**
-  - Weekly aggregates (`weekly_expenses`).
-  - Monthly comparisons (`month_comparasion` ⚠️ typo in function name preserved for compatibility).
-  - Descriptive stats (`calc_descriptive_stats_per_month`).
-
-- 🖥️ **UI**
-  - Qt table widget `networth_by_currency_table_qt` showing net worth totals grouped by currency.
+The tool is designed to solve a real-world problem: **budgeting and financial discipline**, while also demonstrating end-to-end software engineering skills.  
 
 ---
 
-## Architecture
+## 🔑 Key Features
 
-The project is structured into layers for clarity and maintainability:
+### 💸 Expenses
+- Record expenses with `record_expense`.
+- Undo expenses with `redo_expense`.
+- Summaries by week/month.
+- Descriptive statistics: mean, median, mode (by expense name).
+- Category drift detection using confidence intervals.
 
-main.py # Entry point for the application
+### 💰 Wallets
+- Manage multiple wallets (`get_all_wallets`, `get_wallet_by_id`, `order_by`).
+- Transfer between wallets (`transfer_money`).
+- Net worth per currency (`calc_networth(mode=1)`).
+- Currency conversion support (`calc_networth(mode=2)` + API integration).
+
+### 🎯 Goals
+- Complete goals with `complete_goal`: deducts from wallet, logs as expense, deletes goal.
+- Legacy compatibility with `ordeBy`.
+
+### 📊 Analytics
+- Weekly aggregates (`weekly_expenses`).
+- Monthly comparisons (`month_comparasion`).
+- Descriptive stats per month (`calc_descriptive_stats_per_month`).
+- Trend detection: compare current vs. past periods.
+
+### 🖥️ User Interface
+- Built with **PySide6 (Qt)**.  
+- Net worth displayed in a table widget grouped by currency.  
+- Themed interface:  
+  - Dark/Light modes.  
+  - Seasonal palettes (e.g., summer, autumn).  
+
+### 🔐 Security
+- Login flow with password hashing.  
+- Protects sensitive financial data.  
+
+### 🔄 Import & Export
+- Import/export in **CSV, JSON, and Excel**.  
+- Easy backups and data portability.  
+
+---
+
+## 🏗️ Architecture
+
+The project uses a **layered architecture** for clarity and maintainability:
+
+main.py # Entry point
 │
-├── ui/ # Qt windows and UI logic
-│ ├── ... # (multiple files for different windows)
+├── ui/ # Qt UI and windows
+│ └── ...
 │
 ├── backend/
-│ ├── crud/ # Low-level CRUD operations (database I/O)
+│ ├── crud/ # Database CRUD (wallets, expenses, categories, goals)
 │ │ ├── wallets.py
 │ │ ├── expenses.py
 │ │ ├── categories.py
 │ │ └── goals.py
 │ │
-│ ├── high_level/ # High-level functions and analytics
-│ │ ├── analysis.py # Graph plotting, analytics
-│ │ └── reporting.py # Additional high-level utilities
+│ ├── high_level/ # Analytics & reporting
+│ │ ├── analysis.py
+│ │ └── reporting.py
 │ │
 │ └── db.py # SQLite connection handler
 │
-└── util/ # Configuration and helpers
-└── config.py
+└── util/
+└── config.py # App configuration, secrets, API keys
+
 
 ### Flow
+1. **main.py** → initializes the program & UI.  
+2. **UI Layer (ui/)** → handles windows & user interactions.  
+3. **High-Level Layer (backend/high_level/)** → provides analytics, reporting, visualizations.  
+4. **CRUD Layer (backend/crud/)** → raw database I/O.  
+5. **Database Layer (db.py)** → manages SQLite persistence.  
 
-1. **`main.py`** starts the program and initializes the UI.  
-2. **UI layer** (in `ui/`) manages user interactions and windows.  
-3. **High-level layer** (in `backend/high_level/`) provides plotting functions and analytics used by the UI.  
-4. **CRUD layer** (in `backend/crud/`) directly interacts with the database (`wallet`, `expense`, `goal`, `category`).  
-5. **Database layer** (`backend/db.py`) manages connections to SQLite.  
-
-This layered approach ensures a clean separation of concerns:  
-- UI handles presentation.  
-- High-level logic handles analytics/graphs.  
-- CRUD handles raw database operations.  
-- DB handles persistence.  
-
-### Key functions
-
-- **Wallets**: `get_all_wallets`, `get_wallet_by_id`, `order_by`, `transfer_money`, `calc_networth`
-- **Expenses**: `add_expense`, `get_all_expenses`, `redo_expense`, `record_expense`, `weekly_expenses`, `calc_descriptive_stats_per_month`
-- **Goals**: `complete_goal`, `ordeBy`
-- **UI**: `networth_by_currency_table_qt`
+This ensures a **clean separation of concerns** between presentation, logic, and storage.  
 
 ---
 
-## Data & Database
+## 🗄️ Data & Database
 
-The project uses **SQLite** as its backend. The schema is defined in [`schema.sql`](schema.sql)-
+- Uses **SQLite** for persistence.  
+- Database schema defined in [`schema.sql`](schema.sql).  
+- Supports multiple currencies.  
 
 ---
 
-## Installation
+## ⚙️ Installation
 
 ### Prerequisites
 - Python **3.11+**
@@ -135,6 +142,7 @@ The project uses **SQLite** as its backend. The schema is defined in [`schema.sq
 
 ### Steps
 
+```bash
 git clone https://github.com/your-username/budget-tracker.git
 cd budget-tracker
 
@@ -145,6 +153,7 @@ source .venv/bin/activate   # Linux/macOS
 
 # Install dependencies
 pip install -r requirements.txt
+
 
 ### Roadmap
 
